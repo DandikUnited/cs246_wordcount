@@ -19,7 +19,12 @@ public class WordCountMapper extends Mapper <LongWritable, Text, Text, IntWritab
   private final Pattern wordPattern = Pattern.compile ("[a-zA-Z][a-zA-Z0-9]+");
   
   public void map (LongWritable key, Text value, Context context) throws IOException, InterruptedException {        
-    // put your code here!
+	  while ( tok.hasMoreTokens() ) {
+          Text word = new Text( tok.nextToken() );
+          //to avoid creating new IntWritable(1) we will use singleton here.
+          //Mappers, Combiners and Reducers are thread safe 
+          context.write( word, one );            
+      }           
   } 
   
 }
